@@ -26,7 +26,7 @@ app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
 const port = process.env.PORT || 3000;
-const URL = "mongodb+srv://Arc:porapostman@nodeprojects.fqrpdza.mongodb.net/JOBS_API?retryWrites=true&w=majority";
+const URL = "";
 
 const start = async () => {
   try {
