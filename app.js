@@ -1,30 +1,40 @@
-require('dotenv').config();
+//require('.env').config();
 require('express-async-errors');
 const express = require('express');
 const app = express();
+const jobsRouter = require("./routes/jobs");
+const authRouter = require("./routes/auth");
 
 // error handler
 const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
+const connectDb = require("./db/connect");
 
 app.use(express.json());
 // extra packages
 
 // routes
-app.get('/', (req, res) => {
-  res.send('jobs api');
-});
+// app.get('/', (req, res) => {
+//   res.send('jobs api');
+// });
+
+app.use("/api/v1/jobs",jobsRouter);
+app.use("/api/v1/auth",authRouter);
+
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
 const port = process.env.PORT || 3000;
+const URL = "mongodb+srv://Arc:porapostman@nodeprojects.fqrpdza.mongodb.net/JOBS_API?retryWrites=true&w=majority";
 
 const start = async () => {
   try {
     app.listen(port, () =>
       console.log(`Server is listening on port ${port}...`)
     );
+    await connectDb(URL);
+    console.log("Connected to DB")
   } catch (error) {
     console.log(error);
   }
